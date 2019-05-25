@@ -1,13 +1,10 @@
 package com.cafe24.mysite.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,9 +37,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read/{no}")
-	public String read(@PathVariable("no") Long no, Model model, BoardVO vo,
-			HttpServletResponse response, @ModelAttribute PageInfo pageInfo,
-			@CookieValue(value = "myCookie", required = false) Cookie cookie) {
+	public String read(@PathVariable("no") Long no, Model model, BoardVO vo, @ModelAttribute PageInfo pageInfo) {
 		
 		// 페이지 정보 갖고오기
 		vo = service.getBoard(no);
@@ -51,32 +46,6 @@ public class BoardController {
 		if(vo == null) {
 			return "error/404";
 		}
-		
-		// 쿠키 생성 및 저장 프로세스
-		Boolean check = false;
-
-		if (cookie == null) {
-			cookie = new Cookie("myCookie", "");
-			cookie.setMaxAge(60*60*24);
-
-		} else {
-			String[] arr = cookie.getValue().split("_");
-			
-			for(String str : arr) {
-				if (str.equals(String.valueOf(no))) {
-					check = true;
-					break;
-				}
-			}
-		}
-		
-		if (check == false) {
-			System.out.println("1--------- " + cookie);
-			cookie.setValue(cookie.getValue() + "_" + no);
-			service.count(no);
-		}
-		
-		response.addCookie(cookie);
 		
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("board", vo);
@@ -94,7 +63,7 @@ public class BoardController {
 	
 	@Auth(role=Auth.Role.USER)
 	@GetMapping("/responseWrite")
-	public String responseWrite(@RequestParam("no") Long no,@ModelAttribute PageInfo pageInfo, Model model) {
+	public String responseWrite(@RequestParam("no") Long no, @ModelAttribute PageInfo pageInfo, Model model) {
 		
 		model.addAttribute("object", "responseWrite");
 		model.addAttribute("no", no);

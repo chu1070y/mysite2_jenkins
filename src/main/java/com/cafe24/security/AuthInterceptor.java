@@ -17,6 +17,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
+		System.out.println("-------------AuthInterceptor");
+		
 		//1. Handler 종류 확인
 		//   Controller에 있는 메소드이면 true를 리턴해준다.
 		if(handler instanceof HandlerMethod == false) {

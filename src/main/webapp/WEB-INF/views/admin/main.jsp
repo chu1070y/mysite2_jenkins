@@ -17,23 +17,21 @@
 				<div id="site-form">
 					<form method="post" action="${pageContext.request.contextPath }/admin/main/update" enctype="multipart/form-data">
 						<label class="block-label" for="title">사이트 타이틀</label>
-						<input id="title" name="title" type="text" value="${siteVo.title }">
+						<input id="title" name="title" type="text" value="${siteVO.title }">
 						
 						<label class="block-label" for="welcomeMessage">환영 메세지</label>
-						<input id="welcomeMessage" name="welcomeMessage" type="text" value="${siteVo.welcomeMessage }">
+						<input id="welcomeMessage" name="welcom_mes" type="text" value="${siteVO.welcom_mes }">
 
 						<label class="block-label">프로필 이미지</label>
-						<img id="profile" src="${pageContext.request.contextPath }/${siteVo.profileURL }">
-						<input type="file" name="file1">
+						<img id="profile" src="${pageContext.request.contextPath }/${siteVO.profile }">
+						<input type="file" name="multipartFile">
 
 						<label class="block-label">사이트 설명</label>
-						<textarea name="description">${siteVo.description }</textarea>
+						<textarea name="description">${siteVO.description }</textarea>
 						
 						<input type="submit" value="변경" />
 					</form>
 									
-				
-
 				</div>
 			</div>
 			<c:import url="/WEB-INF/views/admin/include/navigation.jsp">
